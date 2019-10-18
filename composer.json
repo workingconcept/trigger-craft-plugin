@@ -1,0 +1,42 @@
+{
+    "name": "workingconcept/craft-trigger",
+    "description": "Utility for triggering deployments when they're needed.",
+    "type": "craft-plugin",
+    "version": "0.0.1",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "craft3",
+        "deployments",
+        "utility"
+    ],
+    "support": {
+        "issues": "https://github.com/workingconcept/trigger-craft-plugin/issues"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Working Concept",
+            "homepage": "https://workingconcept.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.0",
+        "craftcms/cms": "^3.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "workingconcept\\trigger\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Trigger",
+        "handle": "trigger",
+        "hasCpSettings": true,
+        "hasCpSection": false,
+        "changelogUrl": "https://github.com/workingconcept/trigger-craft-plugin/changelog.md",
+        "class": "workingconcept\\trigger\\Trigger"
+    }
+}

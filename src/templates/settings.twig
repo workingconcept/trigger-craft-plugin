@@ -1,0 +1,14 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.autosuggestField( {
+    label:        'Deploy Webhook' | translate( 'trigger' ),
+    id:           'webhookUrl',
+    required:     false,
+    name:         'webhookUrl',
+    class:        'code',
+    value:        settings.webhookUrl,
+    autofocus:    true,
+    errors:       settings.getErrors( 'webhookUrl' ),
+    instructions: 'Provide a webhook URL that will trigger a site build when receiving a GET request.' | translate( 'trigger' ),
+    suggestions:  craft.cp.getEnvSuggestions()
+}) }}
