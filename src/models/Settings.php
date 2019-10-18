@@ -24,7 +24,7 @@ class Settings extends Model
     public $enabled = true;
 
     /**
-     * @var string Webhook that should receive GET request to trigger a build.
+     * @var string Webhook that should receive POST request to trigger a build.
      */
     public $webhookUrl = '';
 
