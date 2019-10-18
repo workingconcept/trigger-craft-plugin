@@ -25,7 +25,7 @@ class Deployments extends Component
         if ($settings->enabled && $settings->webhookUrl)
         {
             $client = new Client();
-            $response = $client->get(Trigger::$plugin->getSettings()->deployUrl);
+            $response = $client->get(Trigger::$plugin->getSettings()->webhookUrl);
             $success = $response->getStatusCode() === 200;
 
             if ($success)
