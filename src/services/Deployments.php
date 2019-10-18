@@ -4,9 +4,7 @@ namespace workingconcept\trigger\services;
 
 use Craft;
 use craft\base\Component;
-use craft\helpers\UrlHelper;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use workingconcept\trigger\Trigger;
 
 /**
@@ -26,7 +24,7 @@ class Deployments extends Component
         {
             $webhookUrl = Craft::parseEnv($settings->webhookUrl);
             $client = new Client();
-            $response = $client->get($webhookUrl);
+            $response = $client->post($webhookUrl);
             $success = $response->getStatusCode() === 200;
 
             if ($success)
