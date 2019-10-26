@@ -14,21 +14,10 @@
 }) }}
 
 {{ forms.lightswitchField({
-    label: 'Active'|t,
     id: 'active',
-    required: false,
-    name: 'settings[active]',
+    name: 'active',
+    label: 'Active'|t,
     on: settings.active,
     errors: settings.getErrors('active'),
     instructions: 'Switch off to keep the deploy webhook from being pinged.' | translate( 'trigger' ),
-}) }}
-
-{{ forms.lightswitchField({
-    label: 'Deploy Waiting'|t,
-    id: 'shouldDeploy',
-    required: false,
-    name: 'settings[shouldDeploy]',
-    on: settings.shouldDeploy,
-    errors: settings.getErrors('shouldDeploy'),
-    instructions: 'Flip on to trigger a deploy on the next check, or off to cancel a pending deploy.' | translate( 'trigger' ),
 }) }}

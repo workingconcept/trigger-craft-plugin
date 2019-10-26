@@ -27,9 +27,4 @@ class Settings extends Model
      * @var bool Whether or not webhook should be pinged.
      */
     public $active = true;
-
-    /**
-     * @var bool Flag that determines whether build should be triggered on check.
-     */
-    public $shouldDeploy = false;
 }

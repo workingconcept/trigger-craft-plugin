@@ -9,6 +9,7 @@
 namespace workingconcept\trigger;
 
 use workingconcept\trigger\models\Settings;
+use workingconcept\trigger\records\DeployFlag;
 use workingconcept\trigger\services\Deployments;
 
 use Craft;

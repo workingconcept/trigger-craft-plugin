@@ -6,6 +6,7 @@ use Craft;
 use craft\base\Component;
 use GuzzleHttp\Client;
 use workingconcept\trigger\Trigger;
+use workingconcept\trigger\records\DeployFlag;
 
 /**
  * Triggers webhook deployments.
@@ -27,6 +28,8 @@ class Deployments extends Component
     {
         $settings = Trigger::$plugin->getSettings();
         $success = false;
+
+        // TODO: process all stored flags with their settings (support multiple)
 
         if ($settings->active && $settings->webhookUrl)
         {
@@ -62,7 +65,7 @@ class Deployments extends Component
      */
     public function pending(): bool
     {
-        return $this->_getSettingsArray()['shouldDeploy'];
+        return $this->_getFlag() !== null;
     }
 
     /**
@@ -70,9 +73,21 @@ class Deployments extends Component
      */
     public function flagForDeploy(): void
     {
-        $settings = $this->_getSettingsArray();
-        $settings['shouldDeploy'] = true;
-        Craft::$app->plugins->savePluginSettings(Trigger::$plugin, $settings);
+        if ($this->pending())
+        {
+            return;
+        }
+
+        $settings = Trigger::$plugin->getSettings();
+
+        $flag = new DeployFlag([
+            'siteId' => Craft::$app->sites->currentSite->id,
+            'method' => 'post',
+            'params' => json_encode([]),
+            'webhookUrl' => Craft::parseEnv($settings->webhookUrl)
+        ]);
+
+        $flag->save();
     }
 
     /**
@@ -80,21 +95,19 @@ class Deployments extends Component
      */
     public function resetDeployFlag(): void
     {
-        $settings = $this->_getSettingsArray();
-        $settings['shouldDeploy'] = false;
-        Craft::$app->plugins->savePluginSettings(Trigger::$plugin, $settings);
+        DeployFlag::deleteAll();
     }
+
 
     // Private Methods
     // =========================================================================
 
     /**
-     * Returns plugin setting as an array.
-     * @return array
+     * @return DeployFlag|null
      */
-    private function _getSettingsArray(): array
+    private function _getFlag(): ?DeployFlag
     {
-        return (array) Trigger::$plugin->getSettings();
+        return DeployFlag::findOne(['siteId' => Craft::$app->sites->currentSite->id]);
     }
 
 }
