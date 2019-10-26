@@ -14,12 +14,12 @@
 }) }}
 
 {{ forms.lightswitchField({
-    label: 'Enabled'|t,
-    id: 'enabled',
+    label: 'Active'|t,
+    id: 'active',
     required: false,
-    name: 'settings[enabled]',
-    on: settings.enabled,
-    errors: settings.getErrors('enabled'),
+    name: 'settings[active]',
+    on: settings.active,
+    errors: settings.getErrors('active'),
     instructions: 'Switch off to keep the deploy webhook from being pinged.' | translate( 'trigger' ),
 }) }}
 
