@@ -28,7 +28,7 @@ class Deployments extends Component
         $settings = Trigger::$plugin->getSettings();
         $success = false;
 
-        if ($settings->enabled && $settings->webhookUrl)
+        if ($settings->active && $settings->webhookUrl)
         {
             $webhookUrl = Craft::parseEnv($settings->webhookUrl);
             $client = new Client();

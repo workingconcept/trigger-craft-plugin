@@ -65,7 +65,7 @@ class Trigger extends Plugin
         // is Craft in devMode?
         $isDevMode = Craft::$app->getConfig()->general->devMode;
 
-        if ($this->getSettings()->enabled && $isDevMode === false)
+        if ($this->getSettings()->active && $isDevMode === false)
         {
             Craft::info('Listening for changes.', 'trigger');
 
