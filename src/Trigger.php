@@ -16,6 +16,7 @@ use craft\console\Application as ConsoleApplication;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
 use craft\services\Elements;
+use craft\elements\Entry;
 use yii\base\Event;
 
 /**
@@ -61,13 +62,24 @@ class Trigger extends Plugin
             'deployments' => Deployments::class,
         ]);
 
-        if ($this->getSettings()->enabled)
+        // is Craft in devMode?
+        $isDevMode = Craft::$app->getConfig()->general->devMode;
+
+        if ($this->getSettings()->enabled && $isDevMode === false)
         {
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_SAVE_ELEMENT,
                 function(ElementEvent $event) {
-                    $this->deployments->flagForDeploy();
+                    $element = $event->element;
+                    $isEntry = get_class($element) === Entry::class;
+                    $isDraft = ! empty($element->draftId);
+
+                    // don't trigger deployments for draft edits!
+                    if ($isEntry && ! $isDraft)
+                    {
+                        $this->deployments->flagForDeploy();
+                    }
                 }
             );
 
