@@ -12,3 +12,23 @@
     instructions: 'Provide a webhook URL that will trigger a site build when receiving a POST request.' | translate( 'trigger' ),
     suggestions:  craft.cp.getEnvSuggestions()
 }) }}
+
+{{ forms.lightswitchField({
+    label: 'Enabled'|t,
+    id: 'enabled',
+    required: false,
+    name: 'settings[enabled]',
+    on: settings.enabled,
+    errors: settings.getErrors('enabled'),
+    instructions: 'Switch off to keep the deploy webhook from being pinged.' | translate( 'trigger' ),
+}) }}
+
+{{ forms.lightswitchField({
+    label: 'Deploy Waiting'|t,
+    id: 'shouldDeploy',
+    required: false,
+    name: 'settings[shouldDeploy]',
+    on: settings.shouldDeploy,
+    errors: settings.getErrors('shouldDeploy'),
+    instructions: 'Flip on to trigger a deploy on the next check, or off to cancel a pending deploy.' | translate( 'trigger' ),
+}) }}

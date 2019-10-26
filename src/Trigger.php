@@ -67,18 +67,33 @@ class Trigger extends Plugin
 
         if ($this->getSettings()->enabled && $isDevMode === false)
         {
+            Craft::info('Listening for changes.', 'trigger');
+
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_SAVE_ELEMENT,
                 function(ElementEvent $event) {
                     $element = $event->element;
+                    $elementId = $element->getId();
                     $isEntry = get_class($element) === Entry::class;
                     $isDraft = ! empty($element->draftId);
 
                     // don't trigger deployments for draft edits!
                     if ($isEntry && ! $isDraft)
                     {
+                        Craft::info(
+                            'Flagged deploy for Element #' . $elementId . '.',
+                            'trigger'
+                        );
+
                         $this->deployments->flagForDeploy();
+                    }
+                    else
+                    {
+                        Craft::info(
+                            'Ignored save for Element #' . $elementId . '.',
+                            'trigger'
+                        );
                     }
                 }
             );
@@ -101,6 +116,10 @@ class Trigger extends Plugin
 
             // TODO: catch globals
             // TODO: catch reorganized structures
+        }
+        else
+        {
+            Craft::info('Not listening for changes; disabled or in dev mode.', 'trigger');
         }
         
         if (Craft::$app instanceof ConsoleApplication)

@@ -1,5 +1,9 @@
 # Trigger Changelog
 
+## 0.1.1 - 2019-10-26
+### Added
+- Exposed settings, added some logging.
+
 ## 0.1.0 - 2019-10-26
 ### Changed
 - Don't trigger deployments for unpublished edits to Drafts and Matrix blocks.
