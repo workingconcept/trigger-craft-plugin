@@ -1,5 +1,11 @@
 # Trigger Changelog
 
+## 0.1.2 - 2019-10-26
+### Changed
+- `enabled` setting is now `active`, which seems less confusing.
+### Added
+- More logging.
+
 ## 0.1.1 - 2019-10-26
 ### Added
 - Exposed settings, added some logging.

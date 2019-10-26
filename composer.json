@@ -2,7 +2,7 @@
     "name": "workingconcept/craft-trigger",
     "description": "Utility for triggering deployments when they're needed.",
     "type": "craft-plugin",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "keywords": [
         "craft",
         "cms",
