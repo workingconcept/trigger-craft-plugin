@@ -23,6 +23,6 @@ Trigger a check from the command line if you need to with `php craft trigger/dep
 - [x] add `trigger/deploy/go` console command
 - [x] add `trigger/deploy/check` console command
 - [x] set pending flag for Element save, delete, and restore
-- [ ] make sure draft edits don't trigger build
-- [ ] add ability to cancel build flag
+- [x] make sure draft edits don't trigger build
+- [x] add ability to cancel build flag
 - [ ] create instant trigger button widget
