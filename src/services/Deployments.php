@@ -10,7 +10,7 @@ use workingconcept\trigger\Trigger;
 /**
  * Triggers webhook deployments.
  *
- * @package workingconcept\cloudflare
+ * @package workingconcept\trigger
  */
 class Deployments extends Component 
 {
@@ -31,6 +31,18 @@ class Deployments extends Component
         if ($settings->active && $settings->webhookUrl)
         {
             $webhookUrl = Craft::parseEnv($settings->webhookUrl);
+
+            if (filter_var($webhookUrl, FILTER_VALIDATE_URL) === FALSE) 
+            {
+                // let's not embarrass ourselves
+                Craft::error(
+                    'Build hook is not a valid URL.',
+                    'trigger'
+                );
+
+                return $success;
+            }
+
             $client = new Client();
             $response = $client->post($webhookUrl);
             $success = $response->getStatusCode() === 200;

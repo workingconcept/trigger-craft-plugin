@@ -13,11 +13,21 @@ use yii\console\ExitCode;
 
 class DeployController extends Controller
 {
+    /**
+     * Immediately triggers a deploy build.
+     *
+     * @return integer
+     */
     public function actionGo(): int
     {
         return Trigger::$plugin->deployments->go() ? ExitCode::OK : ExitCode::UNSPECIFIED_ERROR;
     }
 
+    /**
+     * Triggers a build if changes are pending.
+     *
+     * @return integer
+     */
     public function actionCheck(): int
     {
         if (Trigger::$plugin->deployments->pending())

@@ -1,0 +1,64 @@
+.widget.workingconcept\\trigger\\widgets\\deploy h2 {
+    padding: 24px 24px 10px 24px;
+}
+
+.widget.workingconcept\\trigger\\widgets\\deploy .front .pane {
+    padding: 0;
+}
+
+.trigger-option {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    clear: both;
+    border-top: 1px solid #e3e5e8;
+}
+
+.trigger-option .heading {
+    display: block;
+    clear: both;
+    padding: 24px;
+}
+
+.trigger-option .heading h3 {
+    margin: 0;
+    display: inline-block;
+    font-weight: normal;
+    line-height: 24px;
+    user-select: none;
+}
+
+.trigger-option .heading .icon {
+    display: inline-block;
+    margin-right: 8px;
+    float: left;
+}
+
+.trigger-option .heading .icon svg {
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.trigger-option .heading .icon svg #artwork { fill: #8f98a3; }
+.trigger-option:hover .heading .icon svg #artwork { fill: #29323d; }
+
+.trigger-option:last-child {
+    border-radius: 0 0 4px 4px;
+}
+
+.trigger-option.trigger-now {
+    background-image: linear-gradient(-45deg, #fafafa 25%, transparent 25%, transparent 50%, #fafafa 50%, #fafafa 75%, transparent 75%, transparent);
+    background-size: 12px 12px;
+}
+
+.trigger-option.trigger-now:hover {
+    background-image: linear-gradient(-45deg, #eee 25%, transparent 25%, transparent 50%, #eee 50%, #eee 75%, transparent 75%, transparent);
+    background-size: 12px 12px;
+}
+
+.trigger-option:hover {
+    background: #fafafa;
+}

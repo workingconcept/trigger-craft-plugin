@@ -10,12 +10,15 @@ namespace workingconcept\trigger;
 
 use workingconcept\trigger\models\Settings;
 use workingconcept\trigger\services\Deployments;
+use workingconcept\trigger\widgets\Deploy;
 
 use Craft;
 use craft\console\Application as ConsoleApplication;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
+use craft\events\RegisterComponentTypesEvent;
 use craft\services\Elements;
+use craft\services\Dashboard;
 use craft\elements\Entry;
 use yii\base\Event;
 
@@ -61,6 +64,15 @@ class Trigger extends Plugin
         $this->setComponents([
             'deployments' => Deployments::class,
         ]);
+
+        // register the widget
+        Event::on(
+            Dashboard::class,
+            Dashboard::EVENT_REGISTER_WIDGET_TYPES,
+            function (RegisterComponentTypesEvent $event) {
+                $event->types[] = Deploy::class;
+            }
+        );
 
         // is Craft in devMode?
         $isDevMode = Craft::$app->getConfig()->general->devMode;

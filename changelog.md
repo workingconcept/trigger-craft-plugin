@@ -1,5 +1,10 @@
 # Trigger Changelog
 
+## 0.2.0 - 2019-10-27
+### Added
+- Added a Dashboard widget for instantly triggering builds.
+- Spiffed things up a bit.
+
 ## 0.1.3 - 2019-10-26
 ### Fixed
 - Deploy flag is now set again.

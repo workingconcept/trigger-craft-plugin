@@ -1,28 +1,50 @@
-# Trigger Craft Plugin
+![Trigger](resources/hero.svg)
 
-Kick off static deployments only when you need to. 
+<h1 align="center">Trigger Craft CMS 3 Plugin</h1>
+<h4 align="center">Kick off static deployments only when you need to.</h4>
 
-Tie to cron for scheduled checks, and instantly trigger builds from a Dashboard Widget.
+---
+
+## Overview
+
+A simple plugin to kick off builds asynchronously, ideal for something like a headless [GatsbyJS](https://www.gatsbyjs.org/) or [Gridsome](https://gridsome.org/) frontend deployed to [Netlify](https://www.netlify.com/) or [Zeit](https://zeit.co/). Use it to add a glorified build buton, or tie it to cron so that changes are grouped and pushed on whatever schedule you define.
+
+## Features
+
+Quick setup for defining a deploy webhook and switching things on or off:
+![control panel settings sreenshot](resources/settings.png)
+
+Dashboard widget for instant deploys:
+![control panel settings](resources/widget.png)
+
+Run checks or trigger deploys from the command line:
+
+```shell
+trigger/deploy/check # Triggers a build if changes are pending.
+trigger/deploy/go    # Immediately triggers a deploy build.
+```
 
 ## Setup
 
-1. Install it.
+1. Require with `composer require workingconcept/craft-trigger`, then install via CLI or control panel.
 2. Visit Settings, set your deploy webhook URL.
-3. Set up a cron job to run `php craft trigger/deploy/check`, which will call your webhook URL only if changes have been made.
+3. Set up a cron job to run `craft trigger/deploy/check`, which will call your webhook URL only if changes have been made.
+4. Optionally add the Dashboard widget to your layout for quick one-click builds.
 
-## Usage
+## How it Works
 
-Edit Entries and a build will be triggered automatically within whatever cron interval you set. 
+Publishing, editing, and deleting Entries will switch on the plugin's _Deploy Waiting_ setting. If that setting is enabled the next time a check runs, a deploy will be triggered and the setting will be switched off again.
 
-Hit The Button if you need to immediately trigger a build.
+You can manually flip on the setting and it'll work the same way, and you can turn it off to cancel the next build if it's not yet been triggered.
 
-Trigger a check from the command line if you need to with `php craft trigger/deploy/go`.
+Draft edits won't be flagged for changes.
 
-## TODO
+---
 
-- [x] add `trigger/deploy/go` console command
-- [x] add `trigger/deploy/check` console command
-- [x] set pending flag for Element save, delete, and restore
-- [x] make sure draft edits don't trigger build
-- [x] add ability to cancel build flag
-- [ ] create instant trigger button widget
+## Support
+
+File an issue and I'll try to respond promptly and thoughtfully. This is a free-time project, so I appreciate your patience.
+
+---
+
+This plugin is brought to you by [Working Concept](https://workingconcept.com).
