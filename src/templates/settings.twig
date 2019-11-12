@@ -14,7 +14,7 @@
 }) }}
 
 {{ forms.lightswitchField({
-    label: 'Active'|t,
+    label: 'Active' | translate( 'trigger' ),
     id: 'active',
     required: false,
     name: 'active',
@@ -24,11 +24,11 @@
 }) }}
 
 {{ forms.lightswitchField({
-    label: 'Deploy Waiting'|t,
-    id: 'shouldDeploy',
+    label: 'Deploy on Content Change' | translate( 'trigger' ),
+    id: 'deployOnContentChange',
     required: false,
-    name: 'shouldDeploy',
-    on: settings.shouldDeploy,
-    errors: settings.getErrors('shouldDeploy'),
-    instructions: 'Flip on to trigger a deploy on the next check, or off to cancel a pending deploy.' | translate( 'trigger' ),
+    name: 'deployOnContentChange',
+    on: settings.deployOnContentChange,
+    errors: settings.getErrors('deployOnContentChange'),
+    instructions: 'Automatically trigger a deployment after content changes.' | translate( 'trigger' ),
 }) }}

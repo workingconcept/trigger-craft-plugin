@@ -1,5 +1,22 @@
 # Trigger Changelog
 
+## 0.3.0 - 2019-11-12
+NOTE: this update modifies the database and resets the database schema. A one-time uninstall and reinstall of the plugin will add the new database table. 
+
+### Added
+- Added support for Craft sites that use Project Config.
+  - Added `%trigger_status` table to the database.
+  - Moved `shouldDeploy` from Trigger settings to `%trigger_status` table, as the `status` column.
+- Added ability to deploy on element changes.
+  - Added `deployOnContentChange` setting to enable this.
+- Trigger deployment (or change trigger status) on move of content in a structure and when saving globals.
+- Added override of `devMode` check to allow for deployments after content changes while in `devMode`.
+  - NOTE: to enable this, create a `./config/trigger.php` file and set `devModeDeploy` to `true`.
+
+### Changed
+- Deployments can be triggered for all element types.
+- Ignore possible Triggers when element is both a draft or revision.
+
 ## 0.2.0 - 2019-10-27
 ### Added
 - Added a Dashboard widget for instantly triggering builds.
