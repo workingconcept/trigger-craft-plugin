@@ -5,6 +5,8 @@ namespace workingconcept\trigger\services;
 use Craft;
 use craft\base\Component;
 use GuzzleHttp\Client;
+use workingconcept\trigger\models\Status as StatusModel;
+use workingconcept\trigger\records\Status as StatusRecord;
 use workingconcept\trigger\Trigger;
 
 /**
@@ -14,7 +16,6 @@ use workingconcept\trigger\Trigger;
  */
 class Deployments extends Component 
 {
-
     // Public Methods
     // =========================================================================
 
@@ -74,7 +75,7 @@ class Deployments extends Component
      */
     public function pending(): bool
     {
-        return $this->_getSettingsArray()['shouldDeploy'];
+        return $this->_getDeploymentStatus() == 'pending';
     }
 
     /**
@@ -82,9 +83,7 @@ class Deployments extends Component
      */
     public function flagForDeploy(): void
     {
-        $settings = $this->_getSettingsArray();
-        $settings['shouldDeploy'] = true;
-        Craft::$app->plugins->savePluginSettings(Trigger::$plugin, $settings);
+        $this->_updateDeploymentStatus('pending');
     }
 
     /**
@@ -92,21 +91,53 @@ class Deployments extends Component
      */
     public function resetDeployFlag(): void
     {
-        $settings = $this->_getSettingsArray();
-        $settings['shouldDeploy'] = false;
-        Craft::$app->plugins->savePluginSettings(Trigger::$plugin, $settings);
+        $this->_updateDeploymentStatus();
     }
 
     // Private Methods
     // =========================================================================
 
     /**
-     * Returns plugin setting as an array.
+     * Returns value of trigger_status "status" column
      * @return array
      */
-    private function _getSettingsArray(): array
+    private function _getDeploymentStatus(): string
     {
-        return (array) Trigger::$plugin->getSettings();
+        $status = StatusRecord::findOne([]);
+
+        if ($status) {
+            return $status->status;
+        } else {
+            $this->resetDeployFlag();
+            return 'idle';
+        }
+
+        return $status->status;
     }
 
+    /**
+     * Updates (or creates) trigger_status "status" record
+     * @param $newStatus The new deployment status that will be set. Accepts: idle, pending
+     * @return string
+     */
+    private function _updateDeploymentStatus(string $newStatus = 'idle'): string
+    {
+        $status = StatusRecord::find()->one();
+
+        if (empty($status)) {
+            $status = new StatusRecord();
+        }
+
+        $statusModel = new StatusModel(['status' => $newStatus]);
+        
+        if ($statusModel) {
+            $status->status = $statusModel->status;
+
+            if ($status->save()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

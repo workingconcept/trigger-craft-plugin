@@ -16,10 +16,13 @@ use Craft;
 use craft\console\Application as ConsoleApplication;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
+use craft\events\GlobalSetContentEvent;
 use craft\events\RegisterComponentTypesEvent;
-use craft\services\Elements;
+use craft\helpers\ElementHelper;
 use craft\services\Dashboard;
+use craft\services\Elements;
 use craft\elements\Entry;
+use craft\services\Globals;
 use yii\base\Event;
 
 /**
@@ -47,7 +50,7 @@ class Trigger extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '1.0.0';
+    public $schemaVersion = '0.3.0';
 
 
     // Public Methods
@@ -77,57 +80,85 @@ class Trigger extends Plugin
         // is Craft in devMode?
         $isDevMode = Craft::$app->getConfig()->general->devMode;
 
-        if ($this->getSettings()->active && ! $isDevMode)
+        if ($this->getSettings()->active && (! $isDevMode || $this->getSettings()->devModeDeploy))
         {
             Craft::info('Listening for changes.', 'trigger');
 
+            $elementCallback = function(ElementEvent $event) {
+                $element = $event->element;
+                $elementId = $element->getId();
+
+                if (ElementHelper::isDraftOrRevision($element)) {
+                    // don't trigger deployments for draft edits!
+                    Craft::info(
+                        'Ignored save for Element #' . $elementId . '.',
+                        'trigger'
+                    );
+                } else {
+                    // trigger deployment
+                    Craft::info(
+                        'Flagged deploy for Element #' . $elementId . '.',
+                        'trigger'
+                    );
+
+                    // deploy immediately, or wait until next 'check'
+                    if ($this->getSettings()->deployOnContentChange) {
+                        $this->deployments->go();
+                    } else {
+                        $this->deployments->flagForDeploy();
+                    }
+                }
+            };
+
+            // deploy after saving element
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_SAVE_ELEMENT,
-                function(ElementEvent $event) {
-                    $element = $event->element;
-                    $elementId = $element->getId();
-                    $isEntry = get_class($element) === Entry::class;
-                    $isDraft = ! empty($element->draftId);
-
-                    // don't trigger deployments for draft edits!
-                    if ($isEntry && ! $isDraft)
-                    {
-                        Craft::info(
-                            'Flagged deploy for Element #' . $elementId . '.',
-                            'trigger'
-                        );
-
-                        $this->deployments->flagForDeploy();
-                    }
-                    else
-                    {
-                        Craft::info(
-                            'Ignored save for Element #' . $elementId . '.',
-                            'trigger'
-                        );
-                    }
-                }
+                $elementCallback
             );
 
+            // deploy after deleting element
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_DELETE_ELEMENT,
-                function(ElementEvent $event) {
-                    $this->deployments->flagForDeploy();
-                }
+                $elementCallback
             );
 
+            // deploy after restoring element
             Event::on(
                 Elements::class,
                 Elements::EVENT_AFTER_RESTORE_ELEMENT,
-                function(ElementEvent $event) {
-                    $this->deployments->flagForDeploy();
-                }
+                $elementCallback
             );
 
-            // TODO: catch globals
-            // TODO: catch reorganized structures
+            // deploy after reorganized structures
+            Event::on(
+                Elements::class,
+                Elements::EVENT_AFTER_UPDATE_SLUG_AND_URI,
+                $elementCallback
+            );
+
+            // deploy after saving globals
+            Event::on(
+                Globals::class,
+                Globals::EVENT_AFTER_SAVE_GLOBAL_SET,
+                function(GlobalSetContentEvent $event) {
+                    Craft::dd($event);
+                    $setId = $event->globalSet->id;
+
+                    Craft::info(
+                        'Flagged deploy for Global Set #' . $setId . '.',
+                        'trigger'
+                    );
+
+                    // deploy immediately, or wait until next 'check'
+                    if ($this->getSettings()->deployOnContentChange) {
+                        $this->deployments->go();
+                    } else {
+                        $this->deployments->flagForDeploy();
+                    }
+                }
+            );
         }
         else
         {
@@ -156,11 +187,9 @@ class Trigger extends Plugin
         return Craft::$app->view->renderTemplate(
             'trigger/settings',
             [
+                'devMode' => Craft::$app->getConfig()->general->devMode,
                 'settings' => $this->getSettings(),
             ]
         );
     }
-
-
-
 }

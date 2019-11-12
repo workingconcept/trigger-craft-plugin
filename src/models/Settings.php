@@ -29,7 +29,12 @@ class Settings extends Model
     public $active = true;
 
     /**
-     * @var bool Flag that determines whether build should be triggered on check.
+     * @var bool Automatically deploy on content change
      */
-    public $shouldDeploy = false;
+    public $deployOnContentChange = true;
+
+    /**
+     * @var bool Allow deployments when DevMode is turned on
+     */
+    public $devModeDeploy = false;
 }
