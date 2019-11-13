@@ -4,7 +4,11 @@ namespace workingconcept\trigger\services;
 
 use Craft;
 use craft\base\Component;
+use craft\base\ElementInterface;
+use craft\helpers\ElementHelper;
 use GuzzleHttp\Client;
+use workingconcept\trigger\events\DeployEvent;
+use workingconcept\trigger\events\CheckEvent;
 use workingconcept\trigger\models\Status as StatusModel;
 use workingconcept\trigger\records\Status as StatusRecord;
 use workingconcept\trigger\Trigger;
@@ -16,6 +20,20 @@ use workingconcept\trigger\Trigger;
  */
 class Deployments extends Component 
 {
+    // Events
+    // =========================================================================
+
+    /**
+     * @event fired immediately before webhook ping
+     */
+    public const EVENT_BEFORE_DEPLOY = 'eventBeforeDeploy';
+
+    /**
+     * @event fired when an updated Element is being checked for changes
+     */
+    public const EVENT_CHECK_ELEMENT = 'checkElement';
+
+
     // Public Methods
     // =========================================================================
 
@@ -44,29 +62,96 @@ class Deployments extends Component
                 return $success;
             }
 
-            $client = new Client();
-            $response = $client->post($webhookUrl);
-            $success = $response->getStatusCode() === 200;
-
-            if ($success)
+            if ($this->hasEventHandlers(self::EVENT_BEFORE_DEPLOY))
             {
-                Craft::info(
-                    'Triggered deploy.',
-                    'trigger'
-                );
+                $event = new DeployEvent();
 
-                $this->resetDeployFlag();
+                $this->trigger(self::EVENT_BEFORE_DEPLOY, $event);
+            }
+
+            $shouldCancel = $event->shouldCancel ?? false;
+
+            if ($shouldCancel === false)
+            {
+                $client = new Client();
+                $response = $client->post($webhookUrl);
+                $success = $response->getStatusCode() === 200;
+
+                if ($success)
+                {
+                    Craft::info(
+                        'Triggered deploy.',
+                        'trigger'
+                    );
+
+                    $this->resetDeployFlag();
+                }
+                else
+                {
+                    Craft::error(
+                        'Deploy trigger failed!',
+                        'trigger'
+                    );
+                }
             }
             else
             {
-                Craft::error(
-                    'Deploy trigger failed!',
+                Craft::warning(
+                    'Deploy trigger cancelled!',
                     'trigger'
                 );
             }
         }
 
         return $success;
+    }
+
+    /**
+     * Evaluates an updated Element to see whether a deploy (or deploy flag)
+     * is needed.
+     *
+     * @param  ElementInterface  $element  the item to evaluate, most likely
+     *                                     passed by a Craft event
+     */
+    public function checkElement(ElementInterface $element): void
+    {
+        $elementId = $element->getId();
+        $elementClass = get_class($element);
+
+        if ($this->hasEventHandlers(self::EVENT_CHECK_ELEMENT))
+        {
+            $event = new CheckEvent([
+                'element' => $element
+            ]);
+
+            $this->trigger(self::EVENT_CHECK_ELEMENT, $event);
+        }
+
+        $shouldIgnore = $event->shouldIgnore ?? false;
+
+        if (ElementHelper::isDraftOrRevision($element) || $shouldIgnore)
+        {
+            // don't trigger deployments for draft edits!
+            Craft::info(
+                "Ignored save for ${$elementClass} #${elementId}.",
+                'trigger'
+            );
+        }
+        else
+        {
+            // trigger deployment
+            Craft::info(
+                "Flagged deploy for ${$elementClass} #${elementId}.",
+                'trigger'
+            );
+
+            // deploy immediately, or wait until next 'check'
+            if (Trigger::$plugin->getSettings()->deployOnContentChange) {
+                $this->go();
+            } else {
+                $this->flagForDeploy();
+            }
+        }
     }
 
     /**
@@ -94,12 +179,13 @@ class Deployments extends Component
         $this->_updateDeploymentStatus();
     }
 
+
     // Private Methods
     // =========================================================================
 
     /**
      * Returns value of trigger_status "status" column
-     * @return array
+     * @return string
      */
     private function _getDeploymentStatus(): string
     {
