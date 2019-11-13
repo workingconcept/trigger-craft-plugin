@@ -12,7 +12,6 @@ use workingconcept\trigger\Trigger;
 
 use Craft;
 use craft\web\Controller;
-use craft\helpers\UrlHelper;
 use yii\web\Response;
 
 /**
@@ -26,9 +25,11 @@ class DefaultController extends Controller
     /**
      * Immediately triggers build hook.
      *
-     * @return void
+     * @return Response
+     * @throws \yii\web\BadRequestHttpException
+     * @throws \craft\errors\MissingComponentException
      */
-    public function actionGo()
+    public function actionGo(): Response
     {
         $this->requirePostRequest();
 
@@ -63,9 +64,11 @@ class DefaultController extends Controller
     /**
      * Checks whether changes are pending, then triggers build hook if needed.
      *
-     * @return void
+     * @return Response
+     * @throws \yii\web\BadRequestHttpException
+     * @throws \craft\errors\MissingComponentException
      */
-    public function actionCheck()
+    public function actionCheck(): Response
     {
         $this->requirePostRequest();
 
