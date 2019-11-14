@@ -40,4 +40,22 @@ class DeployController extends Controller
 
         return ExitCode::OK;
     }
+
+    /**
+     * Cancels pending changes.
+     *
+     * @return integer
+     */
+    public function actionCancel(): int
+    {
+        if (Trigger::$plugin->deployments->pending())
+        {
+            $this->stdout('canceled deployment' . PHP_EOL);
+            return Trigger::$plugin->deployments->resetDeployFlag() ? ExitCode::OK : ExitCode::UNSPECIFIED_ERROR;
+        }
+
+        $this->stdout('nothing pending' . PHP_EOL);
+
+        return ExitCode::OK;
+    }
 }

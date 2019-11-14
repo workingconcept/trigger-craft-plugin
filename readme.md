@@ -11,7 +11,7 @@ A simple plugin to kick off builds asynchronously, ideal for something like a he
 
 ## Features
 
-Quick setup for defining a deploy webhook and switching things on or off:
+Quick setup for publishing changes immediately, or collecting them for routine checks via cron:
 ![control panel settings sreenshot](resources/settings.png)
 
 Dashboard widget for instant deploys:
@@ -20,24 +20,23 @@ Dashboard widget for instant deploys:
 Run checks or trigger deploys from the command line:
 
 ```shell
-trigger/deploy/check # Triggers a build if changes are pending.
-trigger/deploy/go    # Immediately triggers a deploy build.
+trigger/deploy/check  # Triggers a build if changes are pending.
+trigger/deploy/go     # Immediately triggers a deploy build.
+trigger/deploy/cancel # Cancels pending changes.
 ```
 
 ## Setup
 
 1. Require with `composer require workingconcept/craft-trigger`, then install via CLI or control panel.
 2. Visit Settings, set your deploy webhook URL.
-3. Set up a cron job to run `craft trigger/deploy/check`, which will call your webhook URL only if changes have been made.
+3. To batch changes for deploy, add a cron job to run `craft trigger/deploy/check`, which post to your webhook URL only if changes are pending.
 4. Optionally add the Dashboard widget to your layout for quick one-click builds.
 
 ## How it Works
 
-Publishing, editing, and deleting Entries will switch on the plugin's _Deploy Waiting_ setting. If that setting is enabled the next time a check runs, a deploy will be triggered and the setting will be switched off again.
+Saving, reordering, deleting and restoring Elements will either trigger a build or switch on a `pending` flag in the database, depending on the _Deploy on Content Change_ setting you chose. Running `craft trigger/deploy/check` or manually triggering a build from the Dashboard or with `trigger/deploy/go` will reset that flag.
 
-You can manually flip on the setting and it'll work the same way, and you can turn it off to cancel the next build if it's not yet been triggered.
-
-Draft edits won't be flagged for changes.
+Draft edits won't be flagged as changes.
 
 ---
 

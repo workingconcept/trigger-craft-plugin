@@ -160,23 +160,23 @@ class Deployments extends Component
      */
     public function pending(): bool
     {
-        return $this->_getDeploymentStatus() == 'pending';
+        return $this->_getDeploymentStatus() === StatusModel::STATUS_PENDING;
     }
 
     /**
      * Sets flag indicating that changes are ready to be deployed.
      */
-    public function flagForDeploy(): void
+    public function flagForDeploy(): bool
     {
-        $this->_updateDeploymentStatus('pending');
+        return $this->_updateDeploymentStatus(StatusModel::STATUS_PENDING);
     }
 
     /**
      * Turns off flag indicating that changes are ready to be deployed.
      */
-    public function resetDeployFlag(): void
+    public function resetDeployFlag(): bool
     {
-        $this->_updateDeploymentStatus();
+        return $this->_updateDeploymentStatus();
     }
 
 
