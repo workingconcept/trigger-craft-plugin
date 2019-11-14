@@ -133,7 +133,7 @@ class Deployments extends Component
         {
             // don't trigger deployments for draft edits!
             Craft::info(
-                "Ignored save for ${$elementClass} #${elementId}.",
+                "Ignored save for ${elementClass} #${elementId}.",
                 'trigger'
             );
         }
@@ -141,7 +141,7 @@ class Deployments extends Component
         {
             // trigger deployment
             Craft::info(
-                "Flagged deploy for ${$elementClass} #${elementId}.",
+                "Flagged deploy for ${elementClass} #${elementId}.",
                 'trigger'
             );
 
