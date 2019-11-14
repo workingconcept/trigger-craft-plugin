@@ -20,13 +20,28 @@ use craft\base\Model;
  */
 class Status extends Model
 {
+    // Public Constants
+    // =========================================================================
+
+    /**
+     * @var string  Changes are waiting to be deployed.
+     */
+    public const STATUS_PENDING = 'pending';
+
+    /**
+     * @var string  No changes are waiting to be deployed.
+     */
+    public const STATUS_IDLE = 'idle';
+
+
     // Public Properties
     // =========================================================================
 
     /**
      * @var string
      */
-    public $status = 'idle';
+    public $status = self::STATUS_IDLE;
+
 
     // Public Methods
     // =========================================================================
@@ -34,11 +49,16 @@ class Status extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['status', 'string'],
-            ['status', 'default', 'value' => 'idle'],
+            ['status', 'string'],
+            ['status', 'in', 'range' => [
+                self::STATUS_PENDING,
+                self::STATUS_IDLE,
+            ]],
+            ['status', 'default', 'value' => self::STATUS_IDLE],
         ];
     }
 }

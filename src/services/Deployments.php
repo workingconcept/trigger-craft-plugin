@@ -189,24 +189,25 @@ class Deployments extends Component
      */
     private function _getDeploymentStatus(): string
     {
-        $status = StatusRecord::findOne([]);
+        $status = StatusRecord::find()->one();
 
         if ($status) {
             return $status->status;
-        } else {
-            $this->resetDeployFlag();
-            return 'idle';
         }
 
-        return $status->status;
+        $this->resetDeployFlag();
+        return StatusModel::STATUS_IDLE;
     }
 
     /**
      * Updates (or creates) trigger_status "status" record
-     * @param $newStatus The new deployment status that will be set. Accepts: idle, pending
-     * @return string
+     *
+     * @param  string  $newStatus  The new deployment status that will be set.
+     *                             Accepts: idle, pending
+     *
+     * @return bool
      */
-    private function _updateDeploymentStatus(string $newStatus = 'idle'): string
+    private function _updateDeploymentStatus(string $newStatus = StatusModel::STATUS_IDLE): bool
     {
         $status = StatusRecord::find()->one();
 
