@@ -24,12 +24,12 @@ class Deployments extends Component
     // =========================================================================
 
     /**
-     * @event fired immediately before webhook ping
+     * @event DeployEvent  Triggered immediately before deployment webhook post.
      */
-    public const EVENT_BEFORE_DEPLOY = 'eventBeforeDeploy';
+    public const EVENT_BEFORE_DEPLOY = 'beforeDeploy';
 
     /**
-     * @event fired when an updated Element is being checked for changes
+     * @event CheckEvent  Triggered when a changed Element is checked for deployability.
      */
     public const EVENT_CHECK_ELEMENT = 'checkElement';
 
