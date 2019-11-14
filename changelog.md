@@ -1,8 +1,9 @@
 # Trigger Changelog
 
-## 0.3.1 - Unreleased
+## 0.3.1 - 2019-11-13
 ### Added
 - Added `Deployments::EVENT_BEFORE_DEPLOY` and `Deployments::EVENT_CHECK_ELEMENT`.
+- Added `trigger/deploy/cancel` console command.
 
 ## 0.3.0 - 2019-11-12
 NOTE: this update modifies the database and resets the database schema. A one-time uninstall and reinstall of the plugin will add the new database table. 
