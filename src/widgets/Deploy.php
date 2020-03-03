@@ -63,9 +63,9 @@ class Deploy extends Widget
      *
      * @return string
      */
-    public function getTitle(): string 
+    public function getTitle(): string
     {
-        return Craft::t('trigger', 'Build Trigger');
+        return '';
     }
 
     /**
@@ -84,7 +84,8 @@ class Deploy extends Widget
         return Craft::$app->getView()->renderTemplate(
             'trigger/widget',
             [
-                'settings' => Trigger::$plugin->getSettings()
+                'settings' => Trigger::$plugin->getSettings(),
+                'pending' => Trigger::$plugin->deployments->pending()
             ]
         );
     }
