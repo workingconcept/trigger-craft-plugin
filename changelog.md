@@ -1,5 +1,9 @@
 # Trigger Changelog
 
+## Unreleased
+### Fixed
+- Any `2xx` response (not just `200`) is now considered a success. (Thanks [@rhoffmann](https://github.com/workingconcept/trigger-craft-plugin/pull/3)!)
+
 ## 0.3.1 - 2019-11-13
 ### Added
 - Added `Deployments::EVENT_BEFORE_DEPLOY` and `Deployments::EVENT_CHECK_ELEMENT`.
