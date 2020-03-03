@@ -18,7 +18,7 @@ use workingconcept\trigger\Trigger;
  *
  * @package workingconcept\trigger
  */
-class Deployments extends Component 
+class Deployments extends Component
 {
     // Events
     // =========================================================================
@@ -51,7 +51,7 @@ class Deployments extends Component
         {
             $webhookUrl = Craft::parseEnv($settings->webhookUrl);
 
-            if (filter_var($webhookUrl, FILTER_VALIDATE_URL) === FALSE) 
+            if (filter_var($webhookUrl, FILTER_VALIDATE_URL) === FALSE)
             {
                 // let's not embarrass ourselves
                 Craft::error(
@@ -75,7 +75,7 @@ class Deployments extends Component
             {
                 $client = new Client();
                 $response = $client->post($webhookUrl);
-                $success = $response->getStatusCode() === 200;
+                $success = $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
 
                 if ($success)
                 {
@@ -216,7 +216,7 @@ class Deployments extends Component
         }
 
         $statusModel = new StatusModel(['status' => $newStatus]);
-        
+
         if ($statusModel) {
             $status->status = $statusModel->status;
 
