@@ -16,12 +16,10 @@ use Craft;
 use craft\console\Application as ConsoleApplication;
 use craft\base\Plugin;
 use craft\events\ElementEvent;
-use craft\events\GlobalSetContentEvent;
+use craft\events\GlobalSetEvent;
 use craft\events\RegisterComponentTypesEvent;
-use craft\helpers\ElementHelper;
 use craft\services\Dashboard;
 use craft\services\Elements;
-use craft\elements\Entry;
 use craft\services\Globals;
 use yii\base\Event;
 
@@ -124,7 +122,7 @@ class Trigger extends Plugin
             Event::on(
                 Globals::class,
                 Globals::EVENT_AFTER_SAVE_GLOBAL_SET,
-                function (GlobalSetContentEvent $event) {
+                function (GlobalSetEvent $event) {
                     $this->deployments->checkElement($event->globalSet);
                 }
             );
