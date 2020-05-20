@@ -1,5 +1,9 @@
 # Trigger Changelog
 
+## Unreleased
+### Fixed
+- Fixed an error saving global sets. Thanks [@riekusdn](https://github.com/workingconcept/trigger-craft-plugin/pull/6)!
+
 ## 0.3.2 - 2020-03-03
 ### Fixed
 - Any `2xx` response (not just `200`) is now considered a success. (Thanks [@rhoffmann](https://github.com/workingconcept/trigger-craft-plugin/pull/3)!)
