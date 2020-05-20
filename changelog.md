@@ -1,6 +1,6 @@
 # Trigger Changelog
 
-## Unreleased
+## 0.3.3 - 2020-05-20
 ### Fixed
 - Fixed an error saving global sets. Thanks [@riekusdn](https://github.com/workingconcept/trigger-craft-plugin/pull/6)!
 
