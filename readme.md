@@ -5,6 +5,8 @@
 
 ---
 
+**As of v2.3.1, the first-party [Webhooks plugin](https://github.com/craftcms/webhooks) supports debouncing requests. You may want to give that a look first!**
+
 ## Overview
 
 A simple plugin to kick off builds asynchronously, ideal for something like a headless [GatsbyJS](https://www.gatsbyjs.org/) or [Gridsome](https://gridsome.org/) frontend deployed to [Netlify](https://www.netlify.com/) or [Zeit](https://zeit.co/). Use it to add a glorified build buton, or tie it to cron so that changes are grouped and pushed on whatever schedule you define.
