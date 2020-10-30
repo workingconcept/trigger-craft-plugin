@@ -20,9 +20,6 @@ use workingconcept\trigger\Trigger;
  */
 class Deployments extends Component
 {
-    // Events
-    // =========================================================================
-
     /**
      * @event DeployEvent  Triggered immediately before deployment webhook post.
      */
@@ -32,10 +29,6 @@ class Deployments extends Component
      * @event CheckEvent  Triggered when a changed Element is checked for deployability.
      */
     public const EVENT_CHECK_ELEMENT = 'checkElement';
-
-
-    // Public Methods
-    // =========================================================================
 
     /**
      * Sends a POST request to the specified webhook.
@@ -178,10 +171,6 @@ class Deployments extends Component
     {
         return $this->_updateDeploymentStatus();
     }
-
-
-    // Private Methods
-    // =========================================================================
 
     /**
      * Returns value of trigger_status "status" column

@@ -34,25 +34,15 @@ use yii\base\Event;
  */
 class Trigger extends Plugin
 {
-    // Static Properties
-    // =========================================================================
-
     /**
      * @var Trigger
      */
     public static $plugin;
 
-    // Public Properties
-    // =========================================================================
-
     /**
      * @var string
      */
     public $schemaVersion = '0.3.0';
-
-
-    // Public Methods
-    // =========================================================================
 
     /**
      * @inheritdoc

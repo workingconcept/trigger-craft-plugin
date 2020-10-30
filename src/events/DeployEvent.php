@@ -12,9 +12,6 @@ use yii\base\Event;
  */
 class DeployEvent extends Event
 {
-    // Properties
-    // =========================================================================
-
     /**
      * @var bool  set to `true` to cancel an imminent deployment
      */

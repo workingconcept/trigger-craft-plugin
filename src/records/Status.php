@@ -8,9 +8,6 @@
 
 namespace workingconcept\trigger\records;
 
-use workingconcept\trigger\Trigger;
-
-use Craft;
 use craft\db\ActiveRecord;
 
 /**
@@ -20,9 +17,6 @@ use craft\db\ActiveRecord;
  */
 class Status extends ActiveRecord
 {
-    // Public Static Methods
-    // =========================================================================
-
     /**
      * @inheritdoc
      */

@@ -8,9 +8,6 @@
 
 namespace workingconcept\trigger\models;
 
-use workingconcept\trigger\Trigger;
-
-use Craft;
 use craft\base\Model;
 
 /**
@@ -20,9 +17,6 @@ use craft\base\Model;
  */
 class Status extends Model
 {
-    // Public Constants
-    // =========================================================================
-
     /**
      * @var string  Changes are waiting to be deployed.
      */
@@ -33,18 +27,10 @@ class Status extends Model
      */
     public const STATUS_IDLE = 'idle';
 
-
-    // Public Properties
-    // =========================================================================
-
     /**
      * @var string
      */
     public $status = self::STATUS_IDLE;
-
-
-    // Public Methods
-    // =========================================================================
 
     /**
      * @inheritdoc

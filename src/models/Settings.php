@@ -17,7 +17,6 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-
     /**
      * @var string Webhook that should receive POST request to trigger a build.
      */

@@ -13,9 +13,6 @@ use craft\base\Element;
  */
 class CheckEvent extends Event
 {
-    // Properties
-    // =========================================================================
-
     /**
      * @var Element  the Element to be checked for deployable changes
      */

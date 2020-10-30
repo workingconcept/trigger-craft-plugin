@@ -8,7 +8,6 @@
 
 namespace workingconcept\trigger\assetbundles;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
@@ -19,13 +18,10 @@ use craft\web\assets\cp\CpAsset;
  */
 class DeployWidgetAsset extends AssetBundle
 {
-    // Public Methods
-    // =========================================================================
-
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         $this->sourcePath = "@workingconcept/trigger/assetbundles/dist";
 

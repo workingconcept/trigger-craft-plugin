@@ -18,7 +18,7 @@ use craft\base\Widget;
  */
 class Deploy extends Widget
 {
-        /**
+	/**
      * Disallow multiple widget instances.
      *
      * @return bool
@@ -73,7 +73,6 @@ class Deploy extends Widget
      *
      * @return false|string
      * @throws \RuntimeException
-     * @throws \Twig_Error_Loader
      * @throws \yii\base\Exception
      */
 
