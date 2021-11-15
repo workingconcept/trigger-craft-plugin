@@ -36,25 +36,21 @@ class DefaultController extends Controller
         $request = Craft::$app->getRequest();
         $success = false;
 
-        if (Trigger::$plugin->deployments->go())
-        {
+        if (Trigger::$plugin->deployments->go()) {
             Craft::$app->getSession()->setNotice(Craft::t(
                 'trigger',
                 'Triggered a build.'
             ));
 
             $success = true;
-        }
-        else 
-        {
+        } else {
             Craft::$app->getSession()->setError(Craft::t(
                 'trigger',
                 'Failed to trigger a build.'
             ));
         }
 
-        if ($request->getAcceptsJson()) 
-        {
+        if ($request->getAcceptsJson()) {
             return $this->asJson(['success' => $success]);
         }
 
@@ -75,27 +71,21 @@ class DefaultController extends Controller
         $request = Craft::$app->getRequest();
         $success = false;
 
-        if (Trigger::$plugin->deployments->pending())
-        {
-            if (Trigger::$plugin->deployments->go())
-            {
+        if (Trigger::$plugin->deployments->pending()) {
+            if (Trigger::$plugin->deployments->go()) {
                 Craft::$app->getSession()->setNotice(Craft::t(
                     'trigger',
                     'Triggered a build.'
                 ));
 
                 $success = true;
-            }
-            else 
-            {
+            } else {
                 Craft::$app->getSession()->setError(Craft::t(
                     'trigger',
                     'Failed to trigger a build.'
                 ));
             }
-        }
-        else 
-        {
+        } else {
             Craft::$app->getSession()->setNotice(Craft::t(
                 'trigger',
                 'No pending changes to build.'
@@ -104,8 +94,7 @@ class DefaultController extends Controller
             $success = true;
         }
 
-        if ($request->getAcceptsJson()) 
-        {
+        if ($request->getAcceptsJson()) {
             return $this->asJson(['success' => $success]);
         }
 

@@ -68,8 +68,7 @@ class Trigger extends Plugin
         // is Craft in devMode?
         $isDevMode = Craft::$app->getConfig()->general->devMode;
 
-        if ($this->getSettings()->active && (! $isDevMode || $this->getSettings()->devModeDeploy))
-        {
+        if ($this->getSettings()->active && (! $isDevMode || $this->getSettings()->devModeDeploy)) {
             Craft::info('Listening for changes.', 'trigger');
 
             // deploy after saving element
@@ -116,14 +115,11 @@ class Trigger extends Plugin
                     $this->deployments->checkElement($event->globalSet);
                 }
             );
-        }
-        else
-        {
+        } else {
             Craft::info('Not listening for changes; disabled or in dev mode.', 'trigger');
         }
         
-        if (Craft::$app instanceof ConsoleApplication)
-        {
+        if (Craft::$app instanceof ConsoleApplication) {
             $this->controllerNamespace = 'workingconcept\trigger\console\controllers';
         }
     }

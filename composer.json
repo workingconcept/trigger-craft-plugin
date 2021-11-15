@@ -2,7 +2,7 @@
     "name": "workingconcept/craft-trigger",
     "description": "Utility for triggering deployments when they're needed.",
     "type": "craft-plugin",
-    "version": "0.3.3",
+    "version": "0.4.0",
     "keywords": [
         "craft",
         "cms",
@@ -23,7 +23,6 @@
         }
     ],
     "require": {
-        "php": "^7.1.0",
         "craftcms/cms": "^3.3.0"
     },
     "autoload": {

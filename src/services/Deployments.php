@@ -40,12 +40,10 @@ class Deployments extends Component
         $settings = Trigger::$plugin->getSettings();
         $success = false;
 
-        if ($settings->active && $settings->webhookUrl)
-        {
+        if ($settings->active && $settings->webhookUrl) {
             $webhookUrl = Craft::parseEnv($settings->webhookUrl);
 
-            if (filter_var($webhookUrl, FILTER_VALIDATE_URL) === FALSE)
-            {
+            if (filter_var($webhookUrl, FILTER_VALIDATE_URL) === false) {
                 // let's not embarrass ourselves
                 Craft::error(
                     'Build hook is not a valid URL.',
@@ -55,8 +53,7 @@ class Deployments extends Component
                 return $success;
             }
 
-            if ($this->hasEventHandlers(self::EVENT_BEFORE_DEPLOY))
-            {
+            if ($this->hasEventHandlers(self::EVENT_BEFORE_DEPLOY)) {
                 $event = new DeployEvent();
 
                 $this->trigger(self::EVENT_BEFORE_DEPLOY, $event);
@@ -64,31 +61,25 @@ class Deployments extends Component
 
             $shouldCancel = $event->shouldCancel ?? false;
 
-            if ($shouldCancel === false)
-            {
+            if ($shouldCancel === false) {
                 $client = new Client();
                 $response = $client->post($webhookUrl);
                 $success = $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
 
-                if ($success)
-                {
+                if ($success) {
                     Craft::info(
                         'Triggered deploy.',
                         'trigger'
                     );
 
                     $this->resetDeployFlag();
-                }
-                else
-                {
+                } else {
                     Craft::error(
                         'Deploy trigger failed!',
                         'trigger'
                     );
                 }
-            }
-            else
-            {
+            } else {
                 Craft::warning(
                     'Deploy trigger cancelled!',
                     'trigger'
@@ -111,8 +102,7 @@ class Deployments extends Component
         $elementId = $element->getId();
         $elementClass = get_class($element);
 
-        if ($this->hasEventHandlers(self::EVENT_CHECK_ELEMENT))
-        {
+        if ($this->hasEventHandlers(self::EVENT_CHECK_ELEMENT)) {
             $event = new CheckEvent([
                 'element' => $element
             ]);
@@ -122,16 +112,13 @@ class Deployments extends Component
 
         $shouldIgnore = $event->shouldIgnore ?? false;
 
-        if (ElementHelper::isDraftOrRevision($element) || $shouldIgnore)
-        {
+        if (ElementHelper::isDraftOrRevision($element) || $shouldIgnore) {
             // don't trigger deployments for draft edits!
             Craft::info(
                 "Ignored save for ${elementClass} #${elementId}.",
                 'trigger'
             );
-        }
-        else
-        {
+        } else {
             // trigger deployment
             Craft::info(
                 "Flagged deploy for ${elementClass} #${elementId}.",

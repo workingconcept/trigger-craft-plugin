@@ -30,8 +30,7 @@ class DeployController extends Controller
      */
     public function actionCheck(): int
     {
-        if (Trigger::$plugin->deployments->pending())
-        {
+        if (Trigger::$plugin->deployments->pending()) {
             $this->stdout('triggering deployment!' . PHP_EOL);
             return Trigger::$plugin->deployments->go() ? ExitCode::OK : ExitCode::UNSPECIFIED_ERROR;
         }
@@ -48,8 +47,7 @@ class DeployController extends Controller
      */
     public function actionCancel(): int
     {
-        if (Trigger::$plugin->deployments->pending())
-        {
+        if (Trigger::$plugin->deployments->pending()) {
             $this->stdout('canceled deployment' . PHP_EOL);
             return Trigger::$plugin->deployments->resetDeployFlag() ? ExitCode::OK : ExitCode::UNSPECIFIED_ERROR;
         }
