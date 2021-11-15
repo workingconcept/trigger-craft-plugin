@@ -18,7 +18,7 @@ use craft\base\Widget;
  */
 class Deploy extends Widget
 {
-	/**
+    /**
      * Disallow multiple widget instances.
      *
      * @return bool
@@ -43,7 +43,7 @@ class Deploy extends Widget
      *
      * @return string
      */
-    public static function icon()
+    public static function icon(): string
     {
         return Craft::getAlias("@workingconcept/trigger/assetbundles/dist/img/widget-icon.svg");
     }
@@ -53,7 +53,7 @@ class Deploy extends Widget
      *
      * @return int
      */
-    public static function maxColspan()
+    public static function maxColspan(): int
     {
         return 1;
     }
