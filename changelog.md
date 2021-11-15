@@ -1,5 +1,9 @@
 # Trigger Changelog
 
+## 0.4.0 - 2021-11-15
+### Changed
+- Compatible with PHP 8.
+
 ## 0.3.3 - 2020-05-20
 ### Fixed
 - Fixed an error saving global sets. Thanks [@riekusdn](https://github.com/workingconcept/trigger-craft-plugin/pull/6)!
@@ -17,17 +21,17 @@
 - Added `trigger/deploy/cancel` console command.
 
 ## 0.3.0 - 2019-11-12
-NOTE: this update modifies the database and resets the database schema. A one-time uninstall and reinstall of the plugin will add the new database table. 
+This update modifies the database and resets the database schema. A one-time uninstall and reinstall of the plugin will add the new database table.
 
 ### Added
-- Added support for Craft sites that use Project Config.
+- Added support for Craft sites that use project config.
   - Added `%trigger_status` table to the database.
   - Moved `shouldDeploy` from Trigger settings to `%trigger_status` table, as the `status` column.
 - Added ability to deploy on element changes.
   - Added `deployOnContentChange` setting to enable this.
 - Trigger deployment (or change trigger status) on move of content in a structure and when saving globals.
 - Added override of `devMode` check to allow for deployments after content changes while in `devMode`.
-  - NOTE: to enable this, create a `./config/trigger.php` file and set `devModeDeploy` to `true`.
+  - To enable this, create a `./config/trigger.php` file and set `devModeDeploy` to `true`.
 
 ### Changed
 - Deployments can be triggered for all element types.
@@ -54,7 +58,7 @@ NOTE: this update modifies the database and resets the database schema. A one-ti
 
 ## 0.1.0 - 2019-10-26
 ### Changed
-- Don't trigger deployments for unpublished edits to Drafts and Matrix blocks.
+- Don’t trigger deployments for unpublished edits to Drafts and Matrix blocks.
 
 ## 0.0.1 - 2019-10-17
 ### Added
