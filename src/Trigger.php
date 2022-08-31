@@ -42,7 +42,7 @@ class Trigger extends Plugin
     /**
      * @var string
      */
-    public $schemaVersion = '0.3.0';
+    public string $schemaVersion = '0.3.0';
 
     /**
      * @inheritdoc
@@ -127,7 +127,7 @@ class Trigger extends Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }
@@ -135,7 +135,7 @@ class Trigger extends Plugin
     /**
      * @inheritdoc
      */
-    protected function settingsHtml(): string
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->view->renderTemplate(
             'trigger/settings',

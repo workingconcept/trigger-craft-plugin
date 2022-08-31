@@ -43,7 +43,7 @@ class Deploy extends Widget
      *
      * @return string
      */
-    public static function icon(): string
+    public static function icon(): ?string
     {
         return Craft::getAlias("@workingconcept/trigger/assetbundles/dist/img/widget-icon.svg");
     }
@@ -53,7 +53,7 @@ class Deploy extends Widget
      *
      * @return int
      */
-    public static function maxColspan(): int
+    public static function maxColspan(): ?int
     {
         return 1;
     }
@@ -63,7 +63,7 @@ class Deploy extends Widget
      *
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return '';
     }
@@ -76,7 +76,7 @@ class Deploy extends Widget
      * @throws \yii\base\Exception
      */
 
-    public function getBodyHtml()
+    public function getBodyHtml(): ?string
     {
         Craft::$app->getView()->registerAssetBundle(DeployWidgetAsset::class);
 

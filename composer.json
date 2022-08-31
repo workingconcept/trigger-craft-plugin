@@ -8,7 +8,7 @@
         "cms",
         "craftcms",
         "craft-plugin",
-        "craft3",
+        "craft4",
         "deployments",
         "utility"
     ],
@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.3.0"
+        "craftcms/cms": "^4.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,5 +37,16 @@
         "hasCpSection": false,
         "changelogUrl": "https://github.com/workingconcept/trigger-craft-plugin/changelog.md",
         "class": "workingconcept\\trigger\\Trigger"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "craftcms/rector": "dev-main"
     }
 }
